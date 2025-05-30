@@ -14,7 +14,9 @@ export class UsersService {
   create(createUserDto: CreateUserDto) {
     const user = new User(createUserDto);
     this.db.users.push(user);
-    return user;
+    const { ...userWithoutPasswords } = user;
+    delete userWithoutPasswords.password;
+    return userWithoutPasswords;
   }
 
   findAll() {
@@ -42,10 +44,17 @@ export class UsersService {
     user.updatedAt = Date.now();
     user.version += 1;
     this.db.users[index] = user;
-    return user;
+    const { ...userWithoutPasswords } = user;
+    delete userWithoutPasswords.password;
+    return userWithoutPasswords;
   }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
+  remove(id: string) {
+    const user = this.db.users.find((user) => user.id === id);
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+    this.db.users = this.db.users.filter((user) => user.id !== id);
+    return user;
+  }
 }
