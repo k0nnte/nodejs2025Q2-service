@@ -15,7 +15,6 @@ export class ArtistsService {
   }
 
   findAll() {
-     
     return this.db.artists;
   }
 
