@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { DatabaseService } from './database.service';
 
-@Global() // <-- делает модуль глобальным
+@Global()
 @Module({
   providers: [DatabaseService],
   exports: [DatabaseService],

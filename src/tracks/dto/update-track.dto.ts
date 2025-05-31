@@ -8,7 +8,6 @@ export class UpdateTrackDto extends PartialType(CreateTrackDto) {
   @ValidateIf((_, value) => value !== null)
   @IsUUID()
   artistId: string | null;
-  @ValidateIf((_, value) => value !== null)
   @IsUUID()
   albumId: string | null;
   @IsNumber()
