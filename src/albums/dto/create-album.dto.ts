@@ -15,5 +15,5 @@ export class CreateAlbumDto {
   year: number;
   @ValidateIf((_, value) => value !== null)
   @IsUUID()
-  artistId?: string | null; // Optional, can be null if no artist is associated
+  artistId: string | null;
 }
