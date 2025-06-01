@@ -70,3 +70,123 @@ npm run format
 Press <kbd>F5</kbd> to debug.
 
 For more information, visit: https://code.visualstudio.com/docs/editor/debugging
+
+
+### API ###
+
+USE http://localhost:4000/
+(and)
+
+USER
+````
+
+GET /user - get all users
+GET /user/:id - get single user by id
+
+POST /user - create user 
+interface  {
+      login: string;
+      password: string;
+    }
+
+PUT /user/:id
+
+interface {
+  oldPassword: string; 
+  newPassword: string;
+}
+
+DELETE /user/:id - delete user
+
+Tracks 
+``````
+
+GET /track - get all tracks
+
+GET /track/:id - get single track by id
+
+POST /track - create new track
+
+  interface {
+      name: string; !
+      duration: number; !
+      artistId: string | null;
+       albumId: string | null;
+  }
+
+  PUT /track/:id - update track info
+
+    interface {
+        name: string;
+        artistId: string | null;
+        albumId: string | null;
+        duration: number;
+    }
+
+    DELETE /track/:id - delete track
+
+    Artists 
+    ```````
+
+    GET /artist - get all artists
+
+    GET /artist/:id - get single artist by id
+
+    POST /artist - create new artist
+
+   interface {
+          name: string; !
+          grammy: boolean; !
+    }
+
+    PUT /artist/:id - update artist info
+
+   interface {
+          name: string;
+          grammy: boolean;
+    }
+
+    DELETE /artist/:id - delete album
+
+
+    Albums
+    ``````
+
+    GET /album - get all albums
+
+    GET /album/:id - get single album by id
+
+    POST /album - create new album
+
+   interface {
+          name: string;!
+          year: number;!
+          artistId: string | null;
+    }
+
+    PUT /album/:id - update album info
+
+   interface {
+         name: string;
+          year: number;
+          artistId: string | null;
+    }
+
+    DELETE /album/:id - delete album
+
+    Favorites
+    `````````
+
+    GET /favs - get all favorites
+
+    POST /favs/track/:id - add track to the favorites
+
+    DELETE /favs/track/:id - delete track from favorites
+
+    POST /favs/album/:id - add album to the favorites
+
+    DELETE /favs/album/:id - delete album from favorites
+
+    POST /favs/artist/:id - add artist to the favorites
+
+    DELETE /favs/artist/:id - delete artist from favorites
