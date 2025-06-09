@@ -7,9 +7,8 @@ services:
       - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - postgres_logs:/var/lib/postgresql
     ports:
-      - '${DB_PORT}:5432'
+      - '${DB_PORT}:5431'
     networks:
       - app-network
     healthcheck:
@@ -17,6 +16,22 @@ services:
       timeout: 10s
       interval: 1s
       retries: 10
+
+  migrate:
+    image: k0nnte/prisma-migrate:v1
+    container_name: migrate
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: 'on-failure'
+    networks:
+      - app-network
+
+
+    
+          
     
 
 networks:
@@ -26,4 +41,4 @@ networks:
 
 volumes:
   postgres_data:
-  postgres_logs:
+
