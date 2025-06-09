@@ -8,7 +8,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - '${DB_PORT}:5431'
+      - '${DB_PORT}:5432'
     networks:
       - app-network
     healthcheck:
@@ -17,20 +17,21 @@ services:
       interval: 1s
       retries: 10
 
-  migrate:
-    image: k0nnte/prisma-migrate:v1
-    container_name: migrate
+  app:
+    build: .
+    container_name: app
+    restart: always
+    volumes:
+      - ./src:/app/src
     env_file:
       - .env
+    ports:
+      - '${PORT}:${PORT}'
+    networks:
+      - app-network
     depends_on:
       postgres:
         condition: service_healthy
-    restart: 'on-failure'
-    networks:
-      - app-network
-
-
-    
           
     
 

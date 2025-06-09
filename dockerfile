@@ -5,8 +5,9 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY  prisma ./prisma
+COPY prisma ./prisma
 
-COPY .env .env
+COPY . .
+RUN npm run build
 
-CMD ["npx", "prisma", "migrate", "deploy"]
+CMD ["npm", "run", "start:dev"]
