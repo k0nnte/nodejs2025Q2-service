@@ -5,14 +5,11 @@ export class User {
   login: string;
   password: string;
   version: number;
-  createdAt: number;
-  updatedAt: number;
+  createdAt: string;
+  updatedAt: string;
   constructor(data: CreateUserDto) {
-    this.id = crypto.randomUUID();
     this.login = data.login;
     this.password = data.password;
     this.version = 1;
-    this.createdAt = Date.now();
-    this.updatedAt = Date.now();
   }
 }
