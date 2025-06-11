@@ -1,0 +1,61 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_logs:/var/lib/postgresql
+    ports:
+      - '${DB_PORT}:5432'
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]  
+      timeout: 10s
+      interval: 1s
+      retries: 10
+
+  migrate:
+    image: k0nnte/migrate:latest
+    container_name: migrate
+    restart: 'on-failure'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - app-network
+
+
+  app:
+    build: .
+    container_name: app
+    restart: always
+    volumes:
+      - ./prisma:/app/prisma
+      - ./src:/app/src
+    env_file:
+      - .env
+    ports:
+      - '${PORT}:${PORT}'
+    networks:
+      - app-network
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+          
+    
+
+networks:
+    app-network:
+      driver: bridge
+
+
+volumes:
+  postgres_data:
+  postgres_logs:
+

@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+    id String @id @default(uuid())
+    login String @map("login")
+    password String @map("password")
+    version Int @map("version")
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("users")
+}
+
+model Artist {
+  id String @id @default(uuid())
+  name String @map("name")
+  grammy Boolean @map("isgrammy")
+
+  @@map("artists")
+  Album Album[]
+  Track Track[]
+  Favorites Favorites[] @relation("FavoriteArtists")
+}
+
+
+model Album {
+  id String @id @default(uuid())
+  name String @map("name")
+  year Int @map("year")
+
+  artistId String? @map("artist_id")
+  artist Artist? @relation(fields: [artistId], references: [id] )
+  @@map("albums")
+  Track Track[]
+  Favorites Favorites[] @relation("FavoriteAlbums")
+}
+
+model Track {
+  id String @id @default(uuid())
+  name String @map("name")
+  duration Int @map("duration")
+  artistId String? @map("artist_id")
+  artist Artist? @relation(fields: [artistId], references: [id] )
+  albumId String? @map("album_id")
+  album Album? @relation(fields: [albumId], references: [id])
+  @@map("tracks")
+  Favorites Favorites[] @relation("FavoriteTracks")
+}
+
+model Favorites {
+  id String @id @default(uuid())
+  artists Artist[]  @relation("FavoriteArtists")
+  albums  Album[]   @relation("FavoriteAlbums")
+  tracks  Track[]   @relation("FavoriteTracks")
+
+  @@map("favorites")
+}
