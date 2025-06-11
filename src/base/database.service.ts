@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 
-export interface User {
-  id: string;
-  login: string;
-  password: string;
-  version: number;
-  createdAt: number;
-  updatedAt: number;
-}
+// interface User {
+//   id: string;
+//   login: string;
+//   password: string;
+//   version: number;
+//   createdAt: number;
+//   updatedAt: number;
+// }
 
 export interface Artist {
   id: string;
@@ -41,7 +41,7 @@ export class DatabaseService {
   artists: Artist[] = [];
   albums: Album[] = [];
   tracks: Track[] = [];
-  users: User[] = [];
+  // users: User[] = [];
   favorites: Favorites = {
     artists: [],
     albums: [],

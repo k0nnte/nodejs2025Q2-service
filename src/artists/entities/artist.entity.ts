@@ -6,7 +6,6 @@ export class Artist {
   grammy: boolean;
 
   constructor(data: CreateArtistDto) {
-    this.id = crypto.randomUUID();
     this.name = data.name;
     this.grammy = data.grammy;
   }

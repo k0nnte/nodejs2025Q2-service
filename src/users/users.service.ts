@@ -13,12 +13,16 @@ export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
   async create(createUserDto: CreateUserDto) {
     const user = new User(createUserDto);
-    await this.prisma.user.create({
+    const resp = await this.prisma.user.create({
       data: user,
     });
-    const { ...userWithoutPasswords } = user;
+    const { ...userWithoutPasswords } = resp;
     delete userWithoutPasswords.password;
-    return userWithoutPasswords;
+    return {
+      ...userWithoutPasswords,
+      createdAt: +userWithoutPasswords.createdAt,
+      updatedAt: +userWithoutPasswords.updatedAt,
+    };
   }
 
   async findAll() {
@@ -34,7 +38,7 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(`User with id ${id} not found`);
     }
-    return user;
+    return { ...user, createdAt: +user.createdAt, updatedAt: +user.updatedAt };
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
@@ -58,7 +62,11 @@ export class UsersService {
     });
     const { ...userWithoutPasswords } = user;
     delete userWithoutPasswords.password;
-    return userWithoutPasswords;
+    return {
+      ...userWithoutPasswords,
+      createdAt: +userWithoutPasswords.createdAt,
+      updatedAt: +userWithoutPasswords.updatedAt,
+    };
   }
 
   async remove(id: string) {
