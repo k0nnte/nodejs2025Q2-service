@@ -19,9 +19,7 @@ services:
       retries: 10
 
   migrate:
-    build: 
-      context: .
-      dockerfile: migrate.Dockerfile
+    image: k0nnte/migrate:latest
     container_name: migrate
     restart: 'on-failure'
     depends_on:
