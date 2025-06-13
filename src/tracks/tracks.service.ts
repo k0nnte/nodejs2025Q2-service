@@ -37,12 +37,6 @@ export class TracksService {
     if (!track) {
       throw new NotFoundException(`track with id ${id} not found`);
     }
-    // const index = this.db.tracks.indexOf(track);
-    // track.name = updateTrackDto.name || track.name;
-    // track.artistId = updateTrackDto.artistId || track.artistId;
-    // track.albumId = updateTrackDto.albumId || track.albumId;
-    // track.duration = updateTrackDto.duration || track.duration;
-    // this.db.tracks[index] = track;
     const resp = await this.prisma.track.update({
       where: {
         id,
