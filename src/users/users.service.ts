@@ -86,4 +86,13 @@ export class UsersService {
     });
     return user;
   }
+
+  async findByLogin(login: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        login,
+      },
+    });
+    return user;
+  }
 }

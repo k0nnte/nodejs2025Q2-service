@@ -5,8 +5,8 @@ export class User {
   login: string;
   password: string;
   version: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   constructor(data: CreateUserDto) {
     this.login = data.login;
     this.password = data.password;
