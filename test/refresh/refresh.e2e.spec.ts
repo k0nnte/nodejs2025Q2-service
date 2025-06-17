@@ -38,6 +38,7 @@ describe('Refresh (e2e)', () => {
     }
     const { userId, login, exp } = payload as TokenPayload;
     expect(payload).toBeInstanceOf(Object);
+
     expect(login).toBeDefined();
     expect(typeof login).toBe('string');
     expect(userId).toBeDefined();
@@ -46,6 +47,7 @@ describe('Refresh (e2e)', () => {
     expect(exp).toBeDefined();
     expect(typeof exp).toBe('number');
     expect(exp).toBeGreaterThan(0);
+
     return payload as TokenPayload;
   };
 
@@ -53,6 +55,7 @@ describe('Refresh (e2e)', () => {
     if (shouldAuthorizationBeTested) {
       const { accessToken, refreshToken, mockUserId, login, token } =
         await getTokenAndUserId(request);
+
       userTokens = { userId: mockUserId, login, accessToken, refreshToken };
       headers['Authorization'] = token;
     }
@@ -70,14 +73,12 @@ describe('Refresh (e2e)', () => {
       const response = await request
         .post(authRoutes.refresh)
         .send({ refreshToken: userTokens.refreshToken });
-
       expect(response.statusCode).toBe(HttpStatus.OK);
       expect(response.body).toBeInstanceOf(Object);
 
       const { accessToken, refreshToken } = response.body as RefreshResponse;
       expect(accessToken).toBeDefined();
       expect(typeof accessToken).toBe('string');
-
       expect(refreshToken).toBeDefined();
       expect(typeof refreshToken).toBe('string');
 

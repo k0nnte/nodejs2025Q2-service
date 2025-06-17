@@ -12,7 +12,6 @@ const createUserDto = {
   login: 'TEST_LOGIN',
   password: 'TEST_PASSWORD',
 };
-
 // Probability of collisions for UUID is almost zero
 const randomUUID = '0a35dd62-e09f-444b-a628-f4e7c6954f57';
 
@@ -20,7 +19,6 @@ describe('Users (e2e)', () => {
   const unauthorizedRequest = request;
   const commonHeaders = { Accept: 'application/json' };
   let mockUserId: string | undefined;
-
   beforeAll(async () => {
     if (shouldAuthorizationBeTested) {
       const result = await getTokenAndUserId(unauthorizedRequest);
