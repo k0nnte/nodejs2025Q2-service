@@ -16,7 +16,7 @@ datasource db {
 
 model User {
     id String @id @default(uuid())
-    login String @map("login") @unique
+    login String @map("login") 
     password String @map("password")
     version Int @map("version")
     createdAt DateTime @default(now()) @map("created_at")

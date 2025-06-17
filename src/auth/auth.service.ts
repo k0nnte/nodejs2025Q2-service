@@ -1,7 +1,5 @@
 import {
   ForbiddenException,
-  HttpException,
-  HttpStatus,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -19,32 +17,30 @@ export class AuthService {
   ) {}
   async login(dto: CreateUserDto) {
     const user = await this.validate(dto);
-    return this.generateToken(user);
+    const a = this.generateToken(user);
+    return a;
   }
 
   async signup(dto: CreateUserDto) {
-    const canditate = await this.userserv.findByLogin(dto.login);
-    if (canditate) {
-      throw new HttpException(
-        'пользователь с таким именем уже есть',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
     const hpass = await bc.hash(dto.password, 5);
     const user = await this.userserv.create({ ...dto, password: hpass });
+    console.log(user);
+
     return user;
   }
 
   private async generateToken(user: User) {
-    const shema = { user: user.id, login: user.login };
-    const token = this.jwtserv.sign(shema);
+    const shema = { userId: user.id, login: user.login };
+    const token = this.jwtserv.sign(shema, {
+      expiresIn: process.env.TOKEN_EXPIRE_TIME,
+    });
     const refresh = this.jwtserv.sign(shema, {
       expiresIn: process.env.TOKEN_REFRESH_EXPIRE_TIME,
     });
     console.log(token, 'hh', refresh);
     return {
-      token,
-      refresh,
+      accessToken: token,
+      refreshToken: refresh,
     };
   }
 
@@ -70,7 +66,7 @@ export class AuthService {
       if (!user) {
         throw new ForbiddenException('Refresh не совпал');
       }
-      return this.generateToken(user);
+      return await this.generateToken(user);
     } catch {
       throw new ForbiddenException('неправельный токен');
     }
